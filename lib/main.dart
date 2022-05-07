@@ -55,6 +55,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Text(data);
               },
             ),
+            Consumer(
+              builder: (context, ref, child) {
+                final asyncValue = ref.watch(futureProvider);
+
+                return asyncValue.when(
+                  data: (data) => Text(data),
+                  error: (e, stackTrace) => const Text('error'),
+                  loading: () => const CircularProgressIndicator(),
+                );
+              },
+            ),
           ],
         ),
       ),

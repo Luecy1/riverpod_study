@@ -6,6 +6,6 @@ final provider = Provider((ref) {
 
 final futureProvider = FutureProvider(
   (ref) {
-    return Future.delayed(const Duration(seconds: 1), () => 'DELAYED ');
+    return Future.delayed(const Duration(seconds: 3), () => 'DELAYED ');
   },
 );
