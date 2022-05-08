@@ -42,7 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
               'You have pushed the button this many times:',
@@ -66,6 +65,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+            Consumer(
+              builder: (context, ref, child) {
+                final asyncValue = ref.watch(streamProvider);
+
+                return asyncValue.when(
+                  data: (data) => Text(data.toString()),
+                  error: (e, stackTrace) => const Text('error'),
+                  loading: () => const CircularProgressIndicator(),
+                );
+              },
+            ),
+            StateProviderComsumer(),
           ],
         ),
       ),
@@ -81,5 +92,22 @@ class MyConsumerWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(provider);
     return Text(data);
+  }
+}
+
+class StateProviderComsumer extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        Text(ref.watch(stateProvider).toString()),
+        ElevatedButton(
+          onPressed: () {
+            ref.read(stateProvider.notifier).state++;
+          },
+          child: const Text('Button'),
+        ),
+      ],
+    );
   }
 }
