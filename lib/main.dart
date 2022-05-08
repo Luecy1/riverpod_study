@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             StateProviderComsumer(),
+            TodoConsumer(),
           ],
         ),
       ),
@@ -104,6 +105,23 @@ class StateProviderComsumer extends ConsumerWidget {
         ElevatedButton(
           onPressed: () {
             ref.read(stateProvider.notifier).state++;
+          },
+          child: const Text('Button'),
+        ),
+      ],
+    );
+  }
+}
+
+class TodoConsumer extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        Text(ref.watch(todoNotifierProvider).toString()),
+        ElevatedButton(
+          onPressed: () {
+            ref.read(todoNotifierProvider.notifier).addTodo();
           },
           child: const Text('Button'),
         ),
