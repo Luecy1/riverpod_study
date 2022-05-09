@@ -78,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             StateProviderComsumer(),
             TodoConsumer(),
+            OverrideConsumer(),
           ],
         ),
       ),
@@ -127,5 +128,31 @@ class TodoConsumer extends ConsumerWidget {
         ),
       ],
     );
+  }
+}
+
+class OverrideConsumer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final textList = ['Hello', 'World'];
+    return Column(
+      children: [
+        for (var value in textList)
+          ProviderScope(
+            overrides: [
+              textProvider.overrideWithValue(value),
+            ],
+            child: TextWidget(),
+          ),
+      ],
+    );
+  }
+}
+
+class TextWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final text = ref.watch(textProvider);
+    return Text(text);
   }
 }

@@ -64,3 +64,6 @@ final todos = [
 final todoNotifierProvider = StateNotifierProvider((ref) {
   return TodoNotifier();
 });
+
+//ScopedProviderは廃止 代わりにProviderが使える
+final textProvider = Provider((ref) => "hoge");
