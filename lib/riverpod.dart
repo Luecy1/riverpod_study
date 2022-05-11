@@ -67,3 +67,24 @@ final todoNotifierProvider = StateNotifierProvider((ref) {
 
 //ScopedProviderは廃止 代わりにProviderが使える
 final textProvider = Provider((ref) => "hoge");
+
+// Providerを組み合わせる
+final cityProvider = StateProvider<String>((_) => "Japan");
+
+// 天気を取得する想定のAPI
+Future<String> fetchWeather(String city) async {
+  await Future.delayed(const Duration(seconds: 3));
+
+  const weather = {
+    "Japan": "Hare",
+    "Newyork": "Kumori",
+    "London": "Ame",
+  };
+
+  return weather[city] ?? "No Data";
+}
+
+final weatherProvider = FutureProvider((ref) async {
+  final city = ref.watch(cityProvider);
+  return fetchWeather(city);
+});

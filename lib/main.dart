@@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             StateProviderComsumer(),
             TodoConsumer(),
             OverrideConsumer(),
+            CombineProviderWidget(),
           ],
         ),
       ),
@@ -154,5 +155,33 @@ class TextWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final text = ref.watch(textProvider);
     return Text(text);
+  }
+}
+
+class CombineProviderWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weather = ref.watch(weatherProvider);
+
+    return Column(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              ref.read(cityProvider.notifier).update((state) => "Newyork");
+            },
+            child: Text('push')),
+        weather.when(
+          data: (data) {
+            return Text(data);
+          },
+          error: (err, stackTrace) {
+            return Text(err.toString());
+          },
+          loading: () {
+            return CircularProgressIndicator();
+          },
+        ),
+      ],
+    );
   }
 }
