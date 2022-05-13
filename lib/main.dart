@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TodoConsumer(),
             OverrideConsumer(),
             CombineProviderWidget(),
+            RefrashProviderWidget(),
           ],
         ),
       ),
@@ -181,6 +182,23 @@ class CombineProviderWidget extends ConsumerWidget {
             return CircularProgressIndicator();
           },
         ),
+      ],
+    );
+  }
+}
+
+class RefrashProviderWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final date = ref.watch(dateProvider);
+    return Column(
+      children: [
+        Text(date.toString()),
+        ElevatedButton(
+            onPressed: () {
+              ref.refresh(dateProvider);
+            },
+            child: Text('push'))
       ],
     );
   }

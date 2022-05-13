@@ -88,3 +88,7 @@ final weatherProvider = FutureProvider((ref) async {
   final city = ref.watch(cityProvider);
   return fetchWeather(city);
 });
+
+final dateProvider = Provider((ref) {
+  return DateTime.now();
+});
